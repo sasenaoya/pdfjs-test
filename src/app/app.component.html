@@ -357,7 +357,17 @@
   </form>
 
   <div *ngIf="pdf">
-    <div>page num = {{pdf.numPages}}</div>
+    <div>
+      <mat-paginator #paginator
+        (page)="renderPage($event.pageIndex + 1)"
+        [pageIndex]="pageNumber! - 1"
+        [pageSize]="1"
+        [length]="pdf.numPages"
+        [hidePageSize]="true"
+        aria-label="Select page">
+      </mat-paginator>
+    </div>
+    <canvas #pdfCanvas [style.width.px]="canvasWidth" [style.height.px]="canvasHeight"></canvas>
   </div>
 
   <h2>Resources</h2>
