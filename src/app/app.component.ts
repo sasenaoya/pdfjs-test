@@ -4,7 +4,6 @@ import * as pdfjs from 'pdfjs-dist';
 /**
  * とりあえずPDFを読み込んでみるサンプル。
  * 読み込んだPDFをCanvasに描画してみる。
- * でもPDFによってはフォントが描画されない。
  */
 @Component({
   selector: 'app-root',
@@ -61,7 +60,11 @@ export class AppComponent {
   private openPdf(file: File) {
     var fileReader = new FileReader();
     fileReader.onload = () => {
-      const loadingTask = pdfjs.getDocument(fileReader.result!);
+      const loadingTask = pdfjs.getDocument({
+        data: fileReader.result!,
+        cMapUrl: "/assets/pdfjs/cmaps/",
+        cMapPacked: true,
+      });
       loadingTask.promise.then(pdf => {
         this.pdf = pdf;
         setTimeout(() => {
