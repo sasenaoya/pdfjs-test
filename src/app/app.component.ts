@@ -3,8 +3,7 @@ import * as pdfjs from 'pdfjs-dist';
 
 /**
  * とりあえずPDFを読み込んでみるサンプル。
- * でも、読み込み時に以下のエラーが発生する。
- * No "GlobalWorkerOptions.workerSrc" specified.
+ * 読み込んだPDFのページ数を表示します。
  */
 @Component({
   selector: 'app-root',
@@ -15,8 +14,13 @@ export class AppComponent {
   title = 'pdfjs-test';
   pdf?: pdfjs.PDFDocumentProxy;
 
+  constructor() {
+    pdfjs.GlobalWorkerOptions.workerSrc = '/assets/pdfjs/pdf.worker.min.js';
+  }
+
   /** PDFファイルが選択された */
   onPdfFileChange(e: Event) {
+    this.pdf = undefined;
     const files = (e.target as any).files;
     if (files?.length > 0) {
       this.openPdf(files[0]);
